@@ -1,0 +1,116 @@
+{% extends 'home_base.html' %}
+{% load static %}
+{% block title %}{{obj.name}}{% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/w_e_style.css' %}">
+<script src="{% static 'js/w_e_question_paper.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top: 160px;">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title" id="subject">{{obj.subject}}</h5>
+                      <h2 id="clock" style="float: right;margin-top: -36px;"></h2>
+                    <h6 class="card-subtitle mb-2 text-muted">score to pass: {{obj.required_score_to_pass}} %</h6>
+                    <p class="card-text">
+                        {% for q in paginator_question %}
+                            <p name="qt" id="qt">{{ q.question}}</p>
+                            <p id="time" style="display:none;">{{q.time}}</p>
+                        <form id="exam-form" class="mt-3 mb-3">
+                            {% csrf_token %}
+                            <textarea class="ans" id="ans" name="ans" value="" style="height: 200px;width:702px;"></textarea>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" id="save_ans">Submit Answer</button>
+                            </div>
+                        </form>
+                      {% endfor %}
+
+
+                      <div class="paginator">
+                          <div class="form-group">
+                              {% if paginator_question.has_next %}
+                                    <p id="nex_url" style="display: none;">{{paginator_question.next_page_number}}</p>
+                                    <a href="?page={{ paginator_question.next_page_number }}"><button class="btn form-control btn-primary" id="submitanswer">Next</button> </a>
+                              {% else %}
+                                    <a href="{% url 'submitexam' %}"><button class="btn form-control btn-success" id="submitanswer">Submit Exam</button> </a>
+                              {% endif %}
+                          </div>
+                      </div>
+                    </p>
+                  </div>
+                </div>
+            </div>
+        <div class="col-2">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+ {% block scripts %}
+
+<script>
+    $(document).ready(function (){
+
+                       var get_time=document.getElementById('time').innerText;
+                       const time1=parseFloat(get_time)
+                       const next_page_number=document.getElementById('nex_url').innerText;
+                       const current_url=window.location.href
+                       const len=current_url.length;
+                       const find=current_url.indexOf('=')
+                       const check = current_url.substr(find,len);
+                       var next_page;
+                       if(check === '/'){
+                           next_page=current_url+"?page=2"
+
+                       }
+                       else{
+                           const u_value='='+next_page_number
+                           next_page=current_url.replace(check,u_value)
+
+
+                       }
+
+                       function mytimer() {
+
+                               const min = time1;
+                               let time = min * 60;
+                               const clockev = document.getElementById("clock");
+                               const q_form=document.getElementById("exam-form");
+                               var x = setInterval(updatetime, 1000)
+
+                               function updatetime() {
+                                   const minutes = Math.floor(time / 60);
+                                   let sec = time % 60;
+                                   clockev.innerHTML = `${minutes} : ${sec}`;
+                                   time--
+                                   if (time <= 0) {
+                                       window.location.href=next_page;
+                                       clearInterval(x);
+                                   }
+                               }
+                           }
+                           mytimer();
+
+
+
+
+
+
+
+    });
+</script>
+
+{% endblock %}

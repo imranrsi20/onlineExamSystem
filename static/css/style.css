@@ -1,0 +1,32 @@
+body{
+    margin:0;
+    font-family: Sans-Serif;
+    background-color: #efefef;
+}
+*{
+    box-sizing: border-box;
+}
+.container{
+    max-width: 1000px;
+    margin: auto;
+}
+.gallery .title h1{
+    font-size: 36px;
+    margin: 0 0 30px;
+    color:#000000;
+    text-align: center;
+}
+.gallery .gallery-items .item.hide{
+    display: none;
+}
+.gallery .gallery-items .item.show{
+    display: block;
+}
+.gallery .gallery-items .item img{
+    height: 200px;
+    width:130px;
+}
+.gallery .gallery-items .item{
+    float:left;
+    width:25%;
+}

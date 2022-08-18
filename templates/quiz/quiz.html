@@ -1,0 +1,94 @@
+{% extends 'home_base.html' %}
+{% load static %}
+{% block title %}{{obj.name}}{% endblock %}
+{% block stylesheet %}
+    <script src="{% static 'quiz/js/quiz.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        {% if length == 0 %}
+
+
+
+        <div class="col-2"></div>
+        <div class="col-8">
+
+            <b>{{obj.name}}</b>
+            <p>score to pass: {{obj.required_score_to_pass}} %</p>
+
+            <form id="quiz-form" class="mt-3 mb-3">
+                {% csrf_token %}
+                <div id="quiz-box"></div>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </form>
+
+            <div id="score-box"></div>
+            <div id="result-box"></div>
+
+
+
+        </div>
+        <div class="col-2">
+            <h2 id="clock" style="position: fixed;"></h2>
+        </div>
+
+
+
+        {% else %}
+            <h1>You Already Taken This Exam.</h1>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    $(document).ready(function (){
+         const url=window.location.href
+                $.ajax({
+                   type: 'GET',
+                   url: `${url}data`,
+
+                    success:function (resp){
+                       const time1=resp.time;
+
+
+                       function mytimer() {
+
+                               const min = time1;
+                               let time = min * 60;
+                               const clockev = document.getElementById("clock");
+                               const q_form=document.getElementById("quiz-form");
+                               var x = setInterval(updatetime, 1000)
+
+                               function updatetime() {
+                                   const minutes = Math.floor(time / 60);
+                                   let sec = time % 60;
+                                   clockev.innerHTML = `${minutes} : ${sec}`;
+                                   time--
+                                   if (time <= 0) {
+                                       clockev.innerHTML = "time over..."
+                                       q_form.innerHTML=""
+                                       clearInterval(x);
+                                   }
+                               }
+                           }
+                           mytimer();
+
+                   },
+                    error:function (error){
+                       console.log(error);
+                    }
+                });
+
+
+
+    });
+</script>
+
+{% endblock %}

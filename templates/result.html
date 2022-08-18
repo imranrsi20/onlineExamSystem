@@ -1,0 +1,131 @@
+
+{% extends 'home_base.html' %}
+{% load static %}
+{% block title %} Result {% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-8">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                          <th scope="col">Ranking</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Student ID</th>
+                          <th scope="col">Score</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% if result %}
+                        {% for r in result %}
+                            <tr>
+                                  <th scope="row">{{forloop.counter}}</th>
+                                  <td>{{r.student_name}}</td>
+                                  <td>{{r.Student_id}}</td>
+                                  <td>{{r.score}}</td>
+                            </tr>
+
+                        {% endfor %}
+                      {% else %}
+                       <tr><td>Nobody take test yet</td></tr>
+                      {% endif %}
+
+                      </tbody>
+                </table>
+            </div>
+
+            <div class="col-4">
+
+
+                    <div class="search" style="margin-top: 20px;">
+                        <form action="{% url 'search' %}" method="post">
+                            {% csrf_token %}
+                            <input id="search_id" type="text" name="search" placeholder="ID or Name or Score..." style="float: left;height: 34px;">
+                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                       
+                        </form>
+                    </div>
+
+
+
+
+
+
+
+							<div class="wm-search-course">
+                                <h3 class="wm-short-title wm-color">Find Your Course</h3>
+                                <p>Fill in the form below to find your course:</p>
+                                <form>
+                                    <ul>
+                                        <li>
+                                            <div class="wm-radio">
+                                                <div class="wm-radio-partition">
+                                                    <input id="male" type="radio" name="gender" value="male">
+                                                    <label for="male">by ID</label>
+                                                </div>
+                                                <div class="wm-radio-partition">
+                                                    <input id="female" type="radio" name="gender" value="female">
+                                                    <label for="female">by name</label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li> <input type="text" value="Course Name" onblur="if(this.value == '') { this.value ='Course Name'; }" onfocus="if(this.value =='Course Name') { this.value = ''; }"> <i class="wmicon-search"></i> </li>
+                                        <li>
+                                            <div class="wm-apply-select">
+                                                <select>
+                                                    <option>Category</option>
+                                                    <option>Category</option>
+                                                    <option>Category</option>
+                                                    <option>Category</option>
+                                                </select>
+                                            </div>
+                                        </li>
+                                        <li> <input type="submit" value="Search course"> </li>
+                                    </ul>
+                                </form>
+                            </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+
+      $(function() {
+        $("#search_id").autocomplete({
+          source: "{% url 'search_auto' %}",
+          select: function (event, ui) { //item selected
+            AutoCompleteSelectHandler(event, ui)
+          },
+          minLength: 1,
+        });
+      });
+
+      function AutoCompleteSelectHandler(event, ui)
+      {
+        var selectedObj = ui.item;
+      }
+
+</script>
+
+
+
+
+{% endblock %}
+
+
+{% block scripts %}{% endblock %}

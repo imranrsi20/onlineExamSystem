@@ -1,0 +1,87 @@
+
+{% extends 'home_base.html' %}
+{% load static %}
+{% block title %} Result {% endblock %}
+{% block stylesheet %}{% endblock %}
+{% block content %}
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                          <th scope="col">No</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Student ID</th>
+                          <th scope="col">Score</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% if s_r %}
+
+                            {% for i in s_r %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                      <td>{{i.student_name}}</td>
+                                      <td>{{i.Student_id}}</td>
+                                      <td>{{i.score}}</td>
+                                 </tr>
+                            {% endfor %}
+
+
+                      {% else %}
+                      <tr><th>No Result Found</th></tr>
+
+                      {% endif %}
+
+                      </tbody>
+                </table>
+            </div>
+
+            <div class="col-4">
+
+
+                    <div class="search" style="margin-top: 20px;">
+                        <form action="{% url 'search' %}" method="post">
+                            {% csrf_token %}
+                            <input id="search_id" type="text" name="search" placeholder="ID or Name or Score..." style="float: left;height: 34px;">
+                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                       
+                        </form>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+
+      $(function() {
+        $("#search_id").autocomplete({
+          source: "{% url 'search_auto' %}",
+          select: function (event, ui) { //item selected
+            AutoCompleteSelectHandler(event, ui)
+          },
+          minLength: 1,
+        });
+      });
+
+      function AutoCompleteSelectHandler(event, ui)
+      {
+        var selectedObj = ui.item;
+      }
+
+</script>
+
+
+
+
+{% endblock %}
+
+
+{% block scripts %}{% endblock %}

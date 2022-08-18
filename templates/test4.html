@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <section class="gallery">
+        <div class="container">
+            <div class="title">
+                <h1>Gallery</h1>
+            </div>
+            <div class="gallery-items">
+                <div class="item">
+                    <img src="{% static 'images/1.jpg' %}" alt="images"/>
+                    <div class="caption">
+                        1
+                    </div>
+                </div>
+                 <div class="item">
+                    <img src="{% static 'images/2.jpg' %}" alt="images"/>
+                    <div class="caption">
+                        2
+                    </div>
+                </div>
+                 <div class="item">
+                    <img src="{% static 'images/3.jpg' %}" alt="images"/>
+                    <div class="caption">
+                        3
+                    </div>
+                </div>
+                 <div class="item">
+                    <img src="{% static 'images/4.jpg' %}" alt="images"/>
+                    <div class="caption">
+                        4
+                    </div>
+                </div>
+                 <div class="item">
+                    <img src="{% static 'images/5.jpg' %}" alt="images"/>
+                    <div class="caption">
+                        5
+                    </div>
+                </div>
+                 <div class="item">
+                    <img src="{% static 'images/6.jpg' %}" alt="images"/>
+                    <div class="caption">
+                        6
+                    </div>
+                </div>
+                 <div class="item">
+                    <img src="{% static 'images/7.jpg' %}" alt="images"/>
+                    <div class="caption">
+                        7
+                    </div>
+                </div>
+            </div>
+            <div class="pagination">
+                <div class="prev">Prev</div>
+                <div class="page">page <span class="page-num"></span> </div>
+                <div class="next">Next</div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{% static 'js/pagination.js' %}"></script>
+</body>
+</html>

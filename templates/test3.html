@@ -1,0 +1,44 @@
+
+    $(document).ready(function (){
+         const url=window.location.href
+                $.ajax({
+                   type: 'GET',
+                   url: `${url}data`,
+
+                    success:function (resp){
+                       const time1=resp.time;
+
+
+                       function mytimer() {
+
+                               const min = time1;
+                               let time = min * 60;
+                               const clockev = document.getElementById("clock");
+                               const q_form=document.getElementById("quiz-form");
+                               var x = setInterval(updatetime, 1000)
+
+                               function updatetime() {
+                                   const minutes = Math.floor(time / 60);
+                                   let sec = time % 60;
+                                   clockev.innerHTML = `${minutes} : ${sec}`;
+                                   time--
+                                   if (time <= 0) {
+                                       clockev.innerHTML = "time over..."
+                                       q_form.innerHTML=""
+                                       clearInterval(x);
+                                   }
+                               }
+                           }
+                           mytimer();
+
+                   },
+                    error:function (error){
+                       console.log(error);
+                    }
+                });
+
+
+
+
+
+    });
